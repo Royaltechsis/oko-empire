@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Oko Empire: Farm to Table</title>
+<meta name="description" content="Bunmi's Naija farm-to-table empire game. Plant, process, cook, serve and build from village farm to Lagos restaurant.">
+<meta name="theme-color" content="#3b2414">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<canvas id="game" aria-label="Oko Empire game"></canvas>
+
+<section id="title" class="screen">
+  <div class="titleArt" id="titleArt"></div>
+  <div class="logo"><div class="kicker">Bunmi&rsquo;s</div><h1>OKO EMPIRE</h1><div class="tag">Farm &bull; Cook &bull; Build &bull; Naija</div></div>
+  <div class="tstats"><span>&#9733; <b id="titleStars">0</b></span><span>Bank <b id="titleBank">0</b></span></div>
+  <div class="tbtns">
+    <button class="btn big" id="btnPlay">Play</button>
+    <button class="btn" id="btnEmpire">My Empire</button>
+    <button class="btn" id="btnLab">&#128187; Code Lab</button>
+    <button class="btn" id="btnAch">Achievements</button>
+    <button class="btn ghost" id="btnSound">Music on</button>
+    <button class="btn ghost" id="btnInstall" style="display:none">Install app</button>
+  </div>
+  <button class="tiny" id="btnReset">New empire</button>
+  <p class="foot">Works offline. Progress saves on this device.</p>
+</section>
+
+<section id="map" class="screen">
+  <header class="bar"><button class="btn small" data-back="title">&#8592; Menu</button><h2>Levels</h2><div class="pill">&#9733; <b id="mapStars"></b></div><div class="pill">Bank <b id="mapBank"></b></div><button class="btn small gold" id="mapEmpire">My Empire</button></header>
+  <div class="mastery" id="mapMastery"></div>
+  <div class="areas" id="areas"></div>
+</section>
+
+<section id="empire" class="screen">
+  <header class="bar"><button class="btn small" data-back="title">&#8592; Menu</button><h2>My Empire</h2><div class="pill" id="empBuilt"></div><div class="pill">Bank <b id="empBank"></b></div><button class="btn small" id="empLab">&#128187; Code Lab</button><button class="btn small gold" id="empPlay">Play levels</button></header>
+  <div id="empireWrap"><canvas id="empireCv"></canvas></div>
+  <p class="hint">Tap a building or a BUILD sign to build and upgrade. Upgrades make every level easier.</p>
+</section>
+
+<section id="ach" class="screen">
+  <header class="bar"><button class="btn small" data-back="title">&#8592; Menu</button><h2>Achievements</h2><div class="pill"><b id="achCount"></b></div></header>
+  <div class="achList" id="achList"></div>
+</section>
+
+
+<section id="lab" class="screen">
+  <header class="bar"><button class="btn small" id="labBack">&#8592; Back</button><h2>&#128187; Code Lab</h2><div class="pill" id="labSolved"></div><div class="pill">Bank <b id="labBank"></b></div><button class="btn small gold" id="labToMap">Play levels</button></header>
+  <div id="labHome">
+    <nav class="labTopics" id="labTopics" aria-label="Topics"></nav>
+    <div class="labMain"><div class="labHead" id="labTopicHead"></div><div class="labList" id="labList"></div><div class="labSide"><div class="labPuz" id="labPuz"></div><div class="labScripts" id="labScripts"></div></div></div>
+  </div>
+  <div id="labSolve">
+    <div class="labTask"><div id="labTaskBody"></div><div id="labHints"></div><div id="labResults"></div></div>
+    <div class="labEd">
+      <div class="edWrap"><pre id="edGutter" aria-hidden="true"></pre><textarea id="edCode" spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" aria-label="Code editor"></textarea></div>
+      <div class="keybar" id="keybar"></div>
+      <div class="edBtns"><button class="btn ghost small" id="edBack">&#8592; List</button><button class="btn ghost small" id="edReset">Reset</button><button class="btn small gold" id="edHint">Hint (0/3)</button><button class="btn big" id="edRun">&#9654; Run</button></div>
+    </div>
+  </div>
+</section>
+
+<div class="modal" id="brief"><div class="panel">
+  <div class="ptag" id="bArea"></div><h3 id="bTitle"></h3><div class="pstars" id="bStars"></div>
+  <div class="goals" id="bGoals"></div>
+  <div class="menuRow"><small>On the menu</small><div id="bMenu"></div></div>
+  <div class="time" id="bTime"></div>
+  <p class="tip" id="bTip"></p>
+  <div class="row2"><button class="btn ghost" id="bClose">Back</button><button class="btn big" id="bStart">Start!</button></div>
+</div></div>
+
+<div class="modal" id="pause"><div class="panel">
+  <h3 id="pTitle">Paused</h3>
+  <button class="btn big" id="pResume">Resume</button>
+  <div class="row2"><button class="btn" id="pMusic">Music</button><button class="btn" id="pSfx">Sounds</button></div>
+  <div class="row2"><button class="btn ghost" id="pRestart">Restart</button><button class="btn ghost" id="pQuit">Quit to map</button></div>
+</div></div>
+
+<div class="modal" id="result"><div class="panel result" id="resultBox">
+  <h3 id="rTitle"></h3><p class="sub" id="rSub"></p>
+  <div class="bigstars" id="rStars"></div>
+  <div class="rows" id="rRows"></div>
+  <div class="brain" id="rBrain" style="display:none"></div>
+  <div class="row2"><button class="btn ghost" id="rRetry">Replay</button><button class="btn ghost" id="rEmpire">Empire</button><button class="btn ghost" id="rMap">Map</button><button class="btn big" id="rNext">Next level</button></div>
+</div></div>
+
+<div class="modal" id="upgrade"><div class="panel">
+  <h3 id="uTitle"></h3><div class="pstars" id="uLevel"></div>
+  <div class="prev"><canvas id="uPrev" style="width:220px;height:170px"></canvas><small id="uPrevLbl"></small></div>
+  <p id="uNow" class="now"></p><p id="uNext" class="next"></p><p id="uWhy" class="why"></p>
+  <div class="row2"><button class="btn ghost" id="uClose">Close</button><button class="btn big" id="uBtn">Build</button></div>
+</div></div>
+
+<div class="modal" id="puz"><div class="panel puzPanel">
+  <div class="ptag" id="pzTag"></div><p class="pzq" id="pzQ"></p><div class="pzopts" id="pzOpts"></div><p class="pzfb" id="pzFb"></p>
+  <div class="row2"><button class="btn ghost" id="pzClose">Close</button><button class="btn big" id="pzNext" style="display:none">Done</button></div>
+</div></div>
+<div id="botChip" style="display:none"></div>
+<div id="achToast"></div>
+<canvas id="confetti"></canvas>
+<div id="rotate">Turn your screen sideways to play</div>
+<script src="game.js"></script>
+<script src="challenges.js"></script>
+<script src="codelab.js"></script>
+</body>
+</html>
